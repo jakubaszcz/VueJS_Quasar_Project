@@ -6,7 +6,7 @@
 </script>
 
 <template>
-  <q-layout :class="difficulty" :type="type" />
+  <q-layout :class="difficulty" :type="type">
     <q-btn>
       <slot name="button"></slot>
     </q-btn>
