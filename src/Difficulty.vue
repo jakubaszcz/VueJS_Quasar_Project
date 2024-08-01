@@ -30,15 +30,18 @@ q-layout:hover {
   width: 21vw;
 }
 .easy {
-  background-color: rgba(0, 153, 89, 1);
+  background-color: #76e495;
+
 }
 
 .medium {
-  background-color: rgb(153, 150, 0);
+  background-color: #e4d276;
+
 }
 
 .hard {
-  background-color: rgb(153, 0, 0);
+  background-color: #e476ad;
+
 }
 
 </style>

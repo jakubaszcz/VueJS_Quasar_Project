@@ -6,6 +6,8 @@ const score = ref(0);
 const text = ref('');
 const defaultSize = ref(50);
 const size = ref(0);
+const keyPressed = ref<string | null>(null)
+const position = ref(0);
 const keyboardChars: string[] = [
   // Lettres minuscules
   'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
@@ -23,8 +25,7 @@ const keyboardChars: string[] = [
   '{', '}', '[', ']', '|', '\\', ':', ';', '"', "'", '<', '>', ',', '.',
   '/', '?',
 
-  // Espaces et autres
-  ' ', '\t', '\n'
+  ' '
 ];
 
 const difficulty = ref(1);
@@ -38,8 +39,21 @@ const state = ref(0);
 //State 2 : playing
 //State 3 : finish
 
+const handleKeyDown = (event: KeyboardEvent) => {
+  if (event.key === 'Capslock' || event.key === 'ShiftLeft' || event.key === 'ShiftRight') {
+    return;
+  }
+  if (event.key === ' ') {
+    keyPressed.value = "Space";
+  } else {
+    keyPressed.value = event.key;
+  }
+
+  checkSentence(event.key);
+}
+
 function generateText() {
-  text.value = ''; // Reset text
+  text.value = '';
   const times = Math.floor(defaultSize.value * (2 + (difficulty.value / 10)));
   for (let i = 0; i < times; i++) {
     const randomIndex = Math.floor(Math.random() * keyboardChars.length);
@@ -47,10 +61,20 @@ function generateText() {
   }
 }
 
+function checkSentence(key: string): void {
+  if (key === text.value[position.value]) {
+    position.value++;
+    score.value++;
+  } else {
+    mistake.value++;
+  }
+}
+
 function game() {
   if (state.value === 2) {
     onTimer()
     generateText();
+    window.addEventListener('keydown', handleKeyDown);
   }
 }
 
@@ -64,6 +88,7 @@ function onTimer() {
 function changeState(num: number) {
   state.value = num;
   game();
+  text.value.length
 }
 
 function onDifficulty(num: number) {
@@ -72,4 +97,4 @@ function onDifficulty(num: number) {
 
 }
 
-export default { timer, text, mistake, score, state, onDifficulty, changeState }
+export default { keyPressed, timer, text, mistake, score, state, onDifficulty, changeState, handleKeyDown}

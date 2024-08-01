@@ -48,6 +48,11 @@ onMounted(() => {
           {{keyBoardHacker.text}}
         </q-toolbar-title>
       </q-layout>
+      <q-layout class="game-client">
+        <q-toolbar-title class="game-client-keyboard">
+          {{KeyBoardHacker.keyPressed.value}}
+        </q-toolbar-title>
+      </q-layout>
     </q-layout>
     <Back/>
   </q-layout>
@@ -70,6 +75,10 @@ onMounted(() => {
     align-items: center;
     flex-direction: column;
   }
+  .keyboard-screen-difficulty .medium,
+  .keyboard-screen-difficulty .hard {
+    margin-top: 10px;
+  }
   .information-panel {
     position: absolute;
     top: 5%;
@@ -87,8 +96,10 @@ onMounted(() => {
     color: white;
   }
   .game-panel {
+    position: absolute;
+    top: 15%;
     display: flex;
-    height: 60vh;
+    height: 40vh;
     border-radius: 1vh;
     width: 80vw;
     background-color: #4f75bd;
@@ -97,6 +108,20 @@ onMounted(() => {
     margin: 20px;
     font-size: 2em;
     color: white;
+  }
+  .game-client {
+    position: absolute;
+    top: 60%;
+    height: 20vh;
+    width: 20vw;
+    background-color: #bd4f7d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .game-client-keyboard {
+    color: white;
+    font-size: 4em;
   }
   .ready {
     display: flex;
