@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { currentLetter, nextLetter, randomLetters, handleKeyDown, state, streak, highStreak ,restartGame } from './AlphaGame'
 import Back from './Back.vue'
 
 onMounted(() => {
+  state.value = 2;
   randomLetters();
 });
+
+onUnmounted(() => {
+  state.value = 3;
+})
 
 window.addEventListener("keydown", handleKeyDown);
 </script>

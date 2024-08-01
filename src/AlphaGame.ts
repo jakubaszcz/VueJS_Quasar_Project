@@ -9,6 +9,10 @@ const currentLetter = ref<string | null>(null);
 const nextLetter = ref<string | null>(null);
 const keyPressed = ref<string | null>(null)
 const state = ref(0);
+// 0 no game
+// 1 is game
+// 2 is on page
+// 3 is not on page
 const streak = ref(0);
 const highStreak = ref(0);
 // 0 for win
@@ -25,6 +29,11 @@ function randomLetters(): void {
 }
 
 const handleKeyDown = (event: KeyboardEvent) => {
+  if (state.value === 3)
+    return;
+  if (state.value === 2) {
+    state.value = 1;
+  }
   keyPressed.value = event.key;
   checkLetter();
 }

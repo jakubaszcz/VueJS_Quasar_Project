@@ -2,10 +2,13 @@
 import KeyBoardHacker from './KeyBoardHacker'
 import Back from './Back.vue'
 import Difficulty from './Difficulty.vue'
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import keyBoardHacker from './KeyBoardHacker'
 onMounted(() => {
   KeyBoardHacker.changeState(0);
+})
+onUnmounted(() => {
+  KeyBoardHacker.gameOff();
 })
 </script>
 
@@ -118,6 +121,7 @@ onMounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 1vh;
   }
   .game-client-keyboard {
     color: white;

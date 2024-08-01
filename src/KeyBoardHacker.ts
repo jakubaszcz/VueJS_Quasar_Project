@@ -8,6 +8,7 @@ const defaultSize = ref(50);
 const size = ref(0);
 const keyPressed = ref<string | null>(null)
 const position = ref(0);
+let intervalID: number;
 const keyboardChars: string[] = [
   // Lettres minuscules
   'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
@@ -40,9 +41,16 @@ const state = ref(0);
 //State 3 : finish
 
 const handleKeyDown = (event: KeyboardEvent) => {
-  if (event.key === 'Capslock' || event.key === 'ShiftLeft' || event.key === 'ShiftRight') {
+  const ignoredKeys = [
+    'CapsLock', 'ShiftLeft', 'ShiftRight', 'ControlLeft', 'ControlRight',
+    'AltLeft', 'AltRight', 'MetaLeft', 'MetaRight', 'Tab', 'Backspace',
+    'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Enter', 'Escape'
+  ];
+
+  if (ignoredKeys.includes(event.code)) {
     return;
   }
+
   if (event.key === ' ') {
     keyPressed.value = "Space";
   } else {
@@ -70,24 +78,39 @@ function checkSentence(key: string): void {
   }
 }
 
-function game() {
+function gameOn() {
   if (state.value === 2) {
-    onTimer()
+    setTimer()
     generateText();
     window.addEventListener('keydown', handleKeyDown);
   }
 }
 
-function onTimer() {
-  const time = setInterval;
-  time(() =>{
+function clearTimer() {
+  if (intervalID) {
+    clearInterval(intervalID);
+    timer.value = 0;
+  }
+}
+
+function gameOff() {
+  clearTimer();
+  mistake.value = 0;
+  score.value = 0;
+  keyPressed.value = null;
+
+  changeState(0);
+}
+
+function setTimer() {
+  intervalID = setInterval(() =>{
     timer.value++
   }, 1000)
 }
 
 function changeState(num: number) {
   state.value = num;
-  game();
+  gameOn();
   text.value.length
 }
 
@@ -97,4 +120,4 @@ function onDifficulty(num: number) {
 
 }
 
-export default { keyPressed, timer, text, mistake, score, state, onDifficulty, changeState, handleKeyDown}
+export default { keyPressed, timer, text, mistake, score, state, onDifficulty, changeState, handleKeyDown, gameOff};
