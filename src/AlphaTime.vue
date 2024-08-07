@@ -2,10 +2,18 @@
 <script setup lang="ts">
 import AlphaTime from './AlpaTime';
 import Back from './Back.vue';
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  AlphaTime.multiplier.value = 1;
+  AlphaTime.text.value = "";
+  AlphaTime.time.value = 0;
+})
 </script>
 
 <template>
   <q-layout class="alphatime-screen">
+    <q-btn class="alphatime-multiplier" @click="AlphaTime.increaseMultiplier()">x{{AlphaTime.multiplier.value}}</q-btn>
     <q-layout class="alphatime-time-board">
       <q-toolbar-title class="alphatime-board-title">{{ AlphaTime.getUTCTime() }}</q-toolbar-title>
     </q-layout>
@@ -55,5 +63,17 @@ import Back from './Back.vue';
   padding: 20px;
   font-size: 2em;
   color: white;
+}
+
+.alphatime-multiplier {
+  border-radius: 1vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5vh;
+  width: 20vw;
+  background-color: #7695e4;
+  position: absolute;
+  top: 5%;
 }
 </style>

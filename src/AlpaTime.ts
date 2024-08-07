@@ -3,10 +3,24 @@ import { ref } from 'vue';
 
 const time = ref(0);
 const text = ref('');
+const multiplier = ref(1);
 
 function getUTCTime(): string {
-  const text = "00 cen 00 dec 00 years 00 days 00 hours 00 minutes";
-  return text;
+  const centuries = Math.floor(time.value / (100 * 365 * 24 * 60));
+  const decades = Math.floor(time.value / (10 * 365 * 24 * 60)) % 10;
+  const years = Math.floor(time.value / (365 * 24 * 60)) % 10;
+  const days = Math.floor(time.value / (24 * 60)) % 365;
+  const hours = Math.floor(time.value / 60) % 24;
+  const minutes = time.value % 60;
+
+  return `${centuries.toString().padStart(2, '0')} cen ${decades.toString().padStart(2, '0')} dec ${years.toString().padStart(2, '0')} years ${days.toString().padStart(2, '0')} days ${hours.toString().padStart(2, '0')} hours ${minutes.toString().padStart(2, '0')} minutes`;
+}
+
+function increaseMultiplier() {
+  const multiplierList = [1, 2, 5, 10, 100, 1000, 10000];
+
+  multiplier.value = (multiplier.value + 1) % multiplierList.length;
+  multiplier.value = multiplierList[multiplier.value];
 }
 
 function handleKeyDown(event: KeyboardEvent): void {
@@ -22,14 +36,14 @@ function handleKeyDown(event: KeyboardEvent): void {
 
   if (event.key === 'Backspace') {
       text.value = text.value.slice(0, -1);
-      time.value -= text.value.charAt(text.value.length - 1).charCodeAt(0);
+      time.value -= text.value.charAt(text.value.length - 1).charCodeAt(0) * multiplier.value;
  } else {
     text.value += event.key;
-    time.value += event.key.charCodeAt(0);
+    time.value += event.key.charCodeAt(0) * multiplier.value;
   }
   console.log(time.value);
 }
 
 document.addEventListener('keydown', handleKeyDown);
 
-export default { getUTCTime, text, handleKeyDown };
+export default { getUTCTime, time, text, handleKeyDown, multiplier, increaseMultiplier};
